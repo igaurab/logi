@@ -1,0 +1,6 @@
+*.swp
+env/
+venv/
+*.ipynb_checkpoints
+db/database/
+db/index/
