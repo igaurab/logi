@@ -1,4 +1,5 @@
 """A log based database that indexes each key."""
+import json
 
 DATABASE_URI = "/home/void/logi/db/database"
 INDEX_FILE = "/home/void/logi/db/index"
@@ -14,8 +15,9 @@ def set(key: str, value: str):
         index[key] = (value_start_pos, value_offset)
         db_write = f"{key},{value}\n"
         db.writelines(db_write)
-        print("{} index: {}".format(key, index[key]))
-#        print(db.tell())
+    
+    with open(INDEX_FILE, "w+", encoding="utf-8") as index_db:
+        index_db.write(json.dumps(index))
 
 def get(key: str):
     """Get value associated with key."""
@@ -27,5 +29,5 @@ def get(key: str):
 
 set('name','gaurab')
 set('age','21')
+set('name','saurav')
 get('name')
-get('age')
