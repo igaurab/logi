@@ -1,14 +1,20 @@
 """A log based database that indexes each key."""
 import json
+import os
 from loguru import logger
 
 class Logi:
     """Log Based Database"""
-    def __init__(self, db_uri: str = None, persist_index=True) -> None:
+    def __init__(self, db_uri: str = None, load_index: str = None, persist_index=True ) -> None:
         self.DB_URI = db_uri or "/home/void/logi/db/database"
         self.INDEX_FILE = "/home/void/logi/db/index"
         self.persist_index = persist_index
-        self.index = {}
+        
+        if load_index:
+            with open(load_index,"r",encoding="utf-8") as index_db:
+                self.index = json.loads(index_db.read())
+        else:
+            self.index = {}
 
     def set(self, key: str, value: str):
         """Append key,value in database file."""
@@ -52,7 +58,7 @@ class Logi:
                 return value
 
 if __name__ == "__main__":
-    db = Logi(persist_index=False)
+    db = Logi(persist_index=False, load_index="/home/void/logi/db/index")
     # db.set("name","gaurab")
     # db.set("age","21")
     # db.set("name","saurav")
